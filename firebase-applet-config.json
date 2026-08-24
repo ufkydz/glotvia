@@ -1,0 +1,12 @@
+{
+  "projectId": "glotvia",
+  "appId": "1:715830950272:web:d92397cd01a4884f55a965",
+  "apiKey": "AIzaSyDRZNPY7lrTn-jn6IX80jovJ1yGPfRl1lo",
+  "authDomain": "glotvia.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "glotvia.firebasestorage.app",
+  "messagingSenderId": "715830950272",
+  "measurementId": "G-0CTED0GJTW",
+  "oAuthClientId": "",
+  "recaptchaSiteKey": ""
+}

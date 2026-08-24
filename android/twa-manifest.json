@@ -1,0 +1,23 @@
+{
+  "packageId": "com.glotvia.app",
+  "host": "glotvia.app",
+  "name": "glotvia",
+  "launcherName": "glotvia",
+  "themeColor": "#020617",
+  "navigationColor": "#020617",
+  "backgroundColor": "#020617",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://glotvia.app/icons/icon-512x512.png",
+  "maskableIconUrl": "https://glotvia.app/icons/maskable-icon-512x512.png",
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "signingKey": {
+    "path": "release.keystore",
+    "alias": "glotvia-release"
+  },
+  "minSdkVersion": 24,
+  "targetSdkVersion": 36,
+  "compileSdkVersion": 36,
+  "generatorApp": "bubblewrap-cli"
+}

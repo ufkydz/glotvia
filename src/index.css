@@ -1,0 +1,562 @@
+@import "tailwindcss";
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  :root {
+    --sat: env(safe-area-inset-top, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+
+    /* Dynamic Theme Defaults */
+    --app-bg-color: #030712;
+    --app-card-color: #0f172a;
+    --app-accent-color: #38bdf8;
+    --app-text-color: #f8fafc;
+    --app-font-scale: 1;
+    --app-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    /* Glotvia Liquid Glass Color System */
+    --glotvia-blue: #3b82f6;
+    --glotvia-cyan: #06b6d4;
+    --glotvia-purple: #8b5cf6;
+    --glotvia-magenta: #ec4899;
+    --glotvia-amber: #f59e0b;
+    --glotvia-emerald: #10b981;
+
+    /* Glass Surface Tokens */
+    --glass-bg-base: rgba(15, 23, 42, 0.65);
+    --glass-bg-card: rgba(30, 41, 59, 0.55);
+    --glass-bg-pill: rgba(30, 41, 59, 0.70);
+    --glass-bg-hover: rgba(51, 65, 85, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-border-highlight: rgba(255, 255, 255, 0.25);
+    --glass-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.38);
+    --glass-glow-cyan: 0 0 25px -4px rgba(6, 182, 212, 0.35);
+    --glass-glow-purple: 0 0 25px -4px rgba(139, 92, 246, 0.35);
+    --glass-glow-amber: 0 0 25px -4px rgba(245, 158, 11, 0.35);
+  }
+
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    background-color: var(--app-bg-color, #030712);
+    color: var(--app-text-color, #f8fafc);
+    font-family: var(--app-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  button, a, [role="button"], .cursor-pointer {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    position: relative;
+    background-color: var(--app-bg-color, #030712);
+    font-size: calc(1rem * var(--app-font-scale, 1));
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Custom Modal & Viewport Responsive Helpers */
+.modal-scroll-container {
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure inputs remain readable and never zoom unexpectedly on iOS/Android */
+input, select, textarea, button {
+  font-size: 16px;
+}
+@media (min-width: 640px) {
+  input, select, textarea, button {
+    font-size: 14px;
+  }
+}
+
+/* =========================================================================
+   GLOTVIA LIQUID GLASS DESIGN SYSTEM UTILITIES
+   ========================================================================= */
+
+/* Ambient Liquid Gradient Lights behind Glass */
+.liquid-aura-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.liquid-orb-cyan {
+  position: absolute;
+  top: -10%;
+  left: 15%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.14) 0%, rgba(59, 130, 246, 0.04) 50%, transparent 75%);
+  filter: blur(60px);
+  border-radius: 9999px;
+  animation: floatAura1 18s ease-in-out infinite alternate;
+}
+
+.liquid-orb-purple {
+  position: absolute;
+  top: 35%;
+  right: -5%;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(236, 72, 153, 0.04) 50%, transparent 75%);
+  filter: blur(70px);
+  border-radius: 9999px;
+  animation: floatAura2 22s ease-in-out infinite alternate;
+}
+
+.liquid-orb-amber {
+  position: absolute;
+  bottom: 5%;
+  left: 20%;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.03) 50%, transparent 75%);
+  filter: blur(65px);
+  border-radius: 9999px;
+  animation: floatAura3 16s ease-in-out infinite alternate;
+}
+
+@keyframes floatAura1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 30px) scale(1.08); }
+  100% { transform: translate(-30px, 50px) scale(0.95); }
+}
+
+@keyframes floatAura2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -30px) scale(1.05); }
+  100% { transform: translate(30px, 40px) scale(0.92); }
+}
+
+@keyframes floatAura3 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -40px) scale(1.1); }
+  100% { transform: translate(-40px, 20px) scale(0.9); }
+}
+
+/* Glass Panel & Card Utility */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.70);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-card {
+  background: rgba(30, 41, 59, 0.55);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-interactive:hover {
+  background: rgba(30, 41, 59, 0.75);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px -8px rgba(0, 0, 0, 0.5), 0 0 20px -4px rgba(6, 182, 212, 0.2), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.glass-card-interactive:active {
+  transform: scale(0.985);
+}
+
+/* Glass Floating Pill Navigation */
+.glass-nav-bar {
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), 0 0 30px -5px rgba(6, 182, 212, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Glass CTA Button with Glow */
+.glass-btn-primary {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.9) 0%, rgba(59, 130, 246, 0.95) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 24px -4px rgba(6, 182, 212, 0.4), inset 0 1px 2px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-btn-primary:hover {
+  box-shadow: 0 12px 30px -2px rgba(6, 182, 212, 0.6), 0 0 24px 2px rgba(59, 130, 246, 0.4), inset 0 1px 2px 0 rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px) scale(1.015);
+}
+
+.glass-btn-primary:active {
+  transform: scale(0.975);
+}
+
+/* Glass Secondary Button */
+.glass-btn-secondary {
+  background: rgba(30, 41, 59, 0.65);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.3), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-btn-secondary:hover {
+  background: rgba(51, 65, 85, 0.8);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.glass-btn-secondary:active {
+  transform: scale(0.975);
+}
+
+/* Glass Input */
+.glass-input-field {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.glass-input-field:focus {
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(6, 182, 212, 0.6);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.18), inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+/* AI Voice Orb Animations */
+.ai-voice-orb-glow {
+  position: relative;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, rgba(6, 182, 212, 0.9) 0%, rgba(99, 102, 241, 0.85) 45%, rgba(168, 85, 247, 0.8) 80%, rgba(236, 72, 153, 0.6) 100%);
+  box-shadow: 0 0 45px 5px rgba(6, 182, 212, 0.45), 0 0 80px 15px rgba(139, 92, 246, 0.3), inset -5px -5px 15px rgba(0, 0, 0, 0.4), inset 5px 5px 15px rgba(255, 255, 255, 0.6);
+}
+
+.ai-voice-orb-listening {
+  animation: orbListenPulse 2.4s ease-in-out infinite;
+}
+
+.ai-voice-orb-speaking {
+  animation: orbSpeakWave 1.6s ease-in-out infinite;
+}
+
+@keyframes orbListenPulse {
+  0% { transform: scale(1); box-shadow: 0 0 35px 2px rgba(6, 182, 212, 0.4), 0 0 70px 10px rgba(139, 92, 246, 0.25); }
+  50% { transform: scale(1.08); box-shadow: 0 0 60px 12px rgba(6, 182, 212, 0.65), 0 0 100px 25px rgba(139, 92, 246, 0.45); }
+  100% { transform: scale(1); box-shadow: 0 0 35px 2px rgba(6, 182, 212, 0.4), 0 0 70px 10px rgba(139, 92, 246, 0.25); }
+}
+
+@keyframes orbSpeakWave {
+  0% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.06) rotate(3deg); filter: hue-rotate(15deg); }
+  50% { transform: scale(0.96) rotate(-2deg); filter: hue-rotate(-15deg); }
+  75% { transform: scale(1.05) rotate(2deg); filter: hue-rotate(25deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* Micro interaction feedback classes */
+.correct-answer-glow {
+  animation: correctGlowAnim 0.6s ease-out forwards;
+}
+
+@keyframes correctGlowAnim {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); transform: scale(0.98); }
+  50% { box-shadow: 0 0 35px 8px rgba(16, 185, 129, 0.5); transform: scale(1.02); }
+  100% { box-shadow: 0 0 15px 2px rgba(16, 185, 129, 0.3); transform: scale(1); }
+}
+
+.wrong-answer-shake {
+  animation: wrongShakeAnim 0.45s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes wrongShakeAnim {
+  10%, 90% { transform: translate3d(-2px, 0, 0); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+  20%, 80% { transform: translate3d(3px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+  40%, 60% { transform: translate3d(3px, 0, 0); }
+}
+
+/* =========================================================================
+   GLOTVIA MULTI-THEME & ATMOSPHERIC ENGINE
+   ========================================================================= */
+
+/* 1. AYDINLIK GÜN IŞIĞI (LIGHT DAYLIGHT - İÇ AÇICI BEYAZ & GÖK MAVİSİ) */
+[data-theme='light-daylight'],
+[data-theme='arctic-frost'],
+.theme-light-mode {
+  --glass-bg-base: rgba(255, 255, 255, 0.92);
+  --glass-bg-card: rgba(255, 255, 255, 0.88);
+  --glass-bg-pill: rgba(241, 245, 249, 0.95);
+  --glass-bg-hover: rgba(226, 232, 240, 0.95);
+  --glass-border: rgba(148, 163, 184, 0.45);
+  --glass-border-highlight: rgba(2, 132, 199, 0.6);
+  --glass-shadow: 0 10px 30px 0 rgba(15, 23, 42, 0.08);
+}
+
+.theme-light-mode {
+  color-scheme: light;
+}
+
+.theme-light-mode body,
+.theme-light-mode #root,
+.theme-light-mode .app-root-container {
+  background-color: var(--app-bg-color, #f8fafc) !important;
+  color: #0f172a !important;
+}
+
+.theme-light-mode .bg-slate-950 {
+  background-color: #f1f5f9 !important;
+}
+
+.theme-light-mode .bg-slate-900 {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.theme-light-mode .bg-slate-900\/60,
+.theme-light-mode .bg-slate-900\/70,
+.theme-light-mode .bg-slate-900\/80,
+.theme-light-mode .bg-slate-900\/90 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.theme-light-mode .bg-slate-950\/60,
+.theme-light-mode .bg-slate-950\/70,
+.theme-light-mode .bg-slate-950\/80,
+.theme-light-mode .bg-slate-950\/90 {
+  background-color: rgba(241, 245, 249, 0.92) !important;
+}
+
+.theme-light-mode .bg-slate-800 {
+  background-color: #e2e8f0 !important;
+}
+
+.theme-light-mode .text-slate-100,
+.theme-light-mode .text-slate-200,
+.theme-light-mode .text-white {
+  color: #0f172a !important;
+}
+
+.theme-light-mode .text-slate-300 {
+  color: #334155 !important;
+}
+
+.theme-light-mode .text-slate-400 {
+  color: #475569 !important;
+}
+
+.theme-light-mode .border-slate-800,
+.theme-light-mode .border-slate-700 {
+  border-color: #cbd5e1 !important;
+}
+
+.theme-light-mode .glass-panel {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.1), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+.theme-light-mode .glass-card {
+  background: rgba(255, 255, 255, 0.90) !important;
+  border-color: rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 4px 20px -4px rgba(15, 23, 42, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+.theme-light-mode .glass-card-interactive:hover {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(2, 132, 199, 0.4) !important;
+  box-shadow: 0 12px 30px -6px rgba(2, 132, 199, 0.18) !important;
+}
+
+.theme-light-mode .glass-nav-bar {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.12) !important;
+}
+
+.theme-light-mode .glass-input-field {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(203, 213, 225, 0.85) !important;
+  color: #0f172a !important;
+}
+
+.theme-light-mode .glass-input-field:focus {
+  background: #ffffff !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+}
+
+.theme-light-mode .liquid-orb-cyan {
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.22) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 75%);
+}
+
+.theme-light-mode .liquid-orb-purple {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(236, 72, 153, 0.06) 50%, transparent 75%);
+}
+
+.theme-light-mode .liquid-orb-amber {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, rgba(251, 191, 36, 0.08) 50%, transparent 75%);
+}
+
+/* 2. OKYANUS FERAHLIĞI (OCEAN BREEZE) */
+[data-theme='ocean-breeze'] .liquid-orb-cyan {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, rgba(14, 165, 233, 0.15) 50%, transparent 75%);
+}
+[data-theme='ocean-breeze'] .liquid-orb-purple {
+  background: radial-gradient(circle, rgba(3, 105, 161, 0.25) 0%, rgba(56, 189, 248, 0.1) 50%, transparent 75%);
+}
+[data-theme='ocean-breeze'] .liquid-orb-amber {
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.22) 0%, rgba(45, 212, 191, 0.08) 50%, transparent 75%);
+}
+
+/* 3. ZÜMRÜT DOĞASI (EMERALD NATURE) */
+[data-theme='emerald-nature'] .liquid-orb-cyan {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.28) 0%, rgba(52, 211, 153, 0.12) 50%, transparent 75%);
+}
+[data-theme='emerald-nature'] .liquid-orb-purple {
+  background: radial-gradient(circle, rgba(5, 150, 105, 0.25) 0%, rgba(110, 231, 183, 0.08) 50%, transparent 75%);
+}
+[data-theme='emerald-nature'] .liquid-orb-amber {
+  background: radial-gradient(circle, rgba(132, 204, 22, 0.2) 0%, rgba(163, 230, 53, 0.06) 50%, transparent 75%);
+}
+
+/* 4. ALTIN GÜNBATIMI (WARM SUNSET) */
+[data-theme='warm-sunset'] .liquid-orb-cyan {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.32) 0%, rgba(251, 146, 60, 0.15) 50%, transparent 75%);
+}
+[data-theme='warm-sunset'] .liquid-orb-purple {
+  background: radial-gradient(circle, rgba(225, 29, 72, 0.22) 0%, rgba(244, 63, 94, 0.1) 50%, transparent 75%);
+}
+[data-theme='warm-sunset'] .liquid-orb-amber {
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.26) 0%, rgba(253, 186, 116, 0.08) 50%, transparent 75%);
+}
+
+/* 5. LAVANTA RÜYASI (LAVENDER PASTEL) */
+[data-theme='lavender-pastel'] .liquid-orb-cyan {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(192, 132, 252, 0.14) 50%, transparent 75%);
+}
+[data-theme='lavender-pastel'] .liquid-orb-purple {
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.25) 0%, rgba(244, 114, 182, 0.1) 50%, transparent 75%);
+}
+[data-theme='lavender-pastel'] .liquid-orb-amber {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.28) 0%, rgba(167, 139, 250, 0.08) 50%, transparent 75%);
+}
+
+/* 6. KUTUP FERAHLIĞI (ARCTIC FROST) */
+[data-theme='arctic-frost'] .liquid-orb-cyan {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, rgba(186, 230, 253, 0.15) 50%, transparent 75%);
+}
+[data-theme='arctic-frost'] .liquid-orb-purple {
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.22) 0%, rgba(224, 242, 254, 0.1) 50%, transparent 75%);
+}
+[data-theme='arctic-frost'] .liquid-orb-amber {
+  background: radial-gradient(circle, rgba(125, 211, 252, 0.25) 0%, rgba(240, 249, 255, 0.1) 50%, transparent 75%);
+}
+
+/* 7. SICAK MOCHA & KARAMEL (COZY MOCHA) */
+[data-theme='cozy-mocha'] .liquid-orb-cyan {
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.25) 0%, rgba(180, 83, 9, 0.12) 50%, transparent 75%);
+}
+[data-theme='cozy-mocha'] .liquid-orb-purple {
+  background: radial-gradient(circle, rgba(146, 64, 14, 0.22) 0%, rgba(120, 53, 15, 0.09) 50%, transparent 75%);
+}
+[data-theme='cozy-mocha'] .liquid-orb-amber {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.08) 50%, transparent 75%);
+}
+
+/* =========================================================================
+   BACKGROUND ATMOSPHERE PATTERNS
+   ========================================================================= */
+
+/* Modern Grid Matrix */
+[data-bg-effect='modern-grid'] {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+  background-position: -19px -19px;
+}
+
+.theme-light-mode[data-bg-effect='modern-grid'] {
+  background-image: radial-gradient(rgba(15, 23, 42, 0.07) 1px, transparent 0);
+}
+
+/* Particles Glow Pattern */
+[data-bg-effect='particles-glow'] {
+  background-image: 
+    radial-gradient(1.5px 1.5px at 20px 30px, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 40px 70px, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0)),
+    radial-gradient(1.5px 1.5px at 50px 160px, rgba(255, 255, 255, 0.22), rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 90px 40px, rgba(255, 255, 255, 0.18), rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0));
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* Clean Minimalist */
+[data-bg-effect='clean-minimal'] .liquid-aura-bg {
+  display: none !important;
+}
+
+/* High Contrast Mode */
+[data-contrast='high'] {
+  --glass-border: rgba(255, 255, 255, 0.35);
+  font-weight: 550;
+}
+[data-contrast='high'] .text-slate-400 {
+  color: #cbd5e1 !important;
+}
+[data-contrast='high'] .text-slate-500 {
+  color: #94a3b8 !important;
+}
+[data-contrast='high'].theme-light-mode .text-slate-400,
+[data-contrast='high'].theme-light-mode .text-slate-500 {
+  color: #334155 !important;
+}
+
+
+
+

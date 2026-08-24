@@ -1,0 +1,19 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Android & Google Play Secrets
+*.jks
+*.keystore
+*.p12
+*.key
+local.properties
+google-services.json
+service-account.json
+key.properties
+signing.properties

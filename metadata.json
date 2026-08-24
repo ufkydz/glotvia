@@ -1,0 +1,8 @@
+{
+  "name": "GLOTVİA",
+  "description": "Global ve Çok Dilli Dil Öğrenme Platformu (19+ Dil, Çift Yönlü Öğrenme, AI Konuşma, Yazı ve Telaffuz Analizi)",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
